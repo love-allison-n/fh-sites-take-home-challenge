@@ -14,6 +14,7 @@ class PokerHandTest extends TestCase
         $this->assertEquals('Royal Flush', $hand->getRank());
     }
 
+
     /**
      * @test
      */
@@ -42,4 +43,57 @@ class PokerHandTest extends TestCase
     }
 
     // TODO: More tests go here
+    /**
+     * @test
+     */
+    public function itCanRankAFullHouse()
+    {
+        $hand = new PokerHand('8h 8d 8c 6d 6s');
+        $this->assertEquals('Full House', $hand->getRank());
+    }
+
+    /**
+     * @test
+     */
+    public function itCanRankAStraightFlush()
+    {
+        $hand = new PokerHand('8d 7d 6d 5d 4d');
+        $this->assertEquals('Straight Flush', $hand->getRank());
+    }
+
+    /**
+     * @test
+     */
+    public function itCanRankAStraight()
+    {
+        $hand = new PokerHand('8h 7d 6c 5d 4d');
+        $this->assertEquals('Straight', $hand->getRank());
+    }
+
+    /**
+     * @test
+     */
+    public function itCanRankAFourOfAKind()
+    {
+        $hand = new PokerHand('Js Jc Jd Jh 5c');
+        $this->assertEquals('Four of a Kind', $hand->getRank());
+    }
+
+    /**
+     * @test
+     */
+    public function itCanRankAThreeOfAKind()
+    {
+        $hand = new PokerHand('2c 2h 2d 3d 9c');
+        $this->assertEquals('Three of a Kind', $hand->getRank());
+    }
+
+    /**
+     * @test
+     */
+    public function itCanRankAHighCard()
+    {
+        $hand = new PokerHand('As Ks Qs Js 7d');
+        $this->assertEquals('High Card', $hand->getRank());
+    }
 }
