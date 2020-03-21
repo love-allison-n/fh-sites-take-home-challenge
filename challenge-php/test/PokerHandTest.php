@@ -96,4 +96,22 @@ class PokerHandTest extends TestCase
         $hand = new PokerHand('As Ks Qs Js 7d');
         $this->assertEquals('High Card', $hand->getRank());
     }
+
+    /**
+     * @test
+     */
+    public function itCanRankInvalidHand()
+    {
+        $hand = new PokerHand('As Ks Qs Js');
+        $this->assertEquals('Try again, a hand should be 5 cards.', $hand->getRank());
+    }
+
+    /**
+     * @test
+     */
+    public function itCanRankInvalidCards()
+    {
+        $hand = new PokerHand('Ah 13s Qc Js 7d');
+        $this->assertEquals('Try again, one or more cards are invalid.', $hand->getRank());
+    }
 }
