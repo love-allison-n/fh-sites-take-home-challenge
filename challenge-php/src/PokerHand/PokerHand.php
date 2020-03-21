@@ -41,6 +41,9 @@ class PokerHand
           }
         }
         // Then make sure they follow the order of the list of values
+        if ($marker > 8) {
+          $isStraight = False; // Don't bother looking if there aren't even 5 cards to look at
+        } else {
           for ($i = 0; $i < 5; $i++) {
             if (substr($hand[$i], 0, -1) !== $order[$marker]) {
               $isStraight = False;
@@ -48,6 +51,7 @@ class PokerHand
             }
             $marker++;
           }
+        }
 
 
         // Find the max number of a kind (assumes the cards are sorted)
