@@ -4,7 +4,6 @@ namespace PokerHand;
 
 class PokerHand
 {
-
     public function __construct($hand)
     {
       $this->hand = $hand;
@@ -13,12 +12,10 @@ class PokerHand
     public function getRank()
     {
         // TODO: Implement poker hand ranking
-
         $order = ['A', 'K', 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2'];
         $suits = ['s', 'c', 'd', 'h'];
         $hand = explode(' ', $this->hand);
-        $suit = substr($hand[0], -1);
-        $sortedHand = $hand;
+        $sortedHand = [];
         $marker = 0;
         $isFlush = True;
         $isStraight = True;
@@ -27,19 +24,21 @@ class PokerHand
         $hasPair = 0;
 
         // Validate and sort the hand!!
-        // Check that there are 5 cards in the handle
+        // Check that there are 5 cards in the hand
         if (count($hand) !== 5) {
           return 'Try again, a hand should be 5 cards.';
         }
 
         // Check that each card is valid
         foreach ($hand as $card) {
-          if (in_array(substr($card, 0, -1), $order) === False or in_array(substr($card, -1), $suits) === False) {
+          if (in_array(substr($card, 0, -1), $order) === False) {
+            return 'Try again, one or more cards are invalid.';
+          } elseif (in_array(substr($card, -1), $suits) === False) {
             return 'Try again, one or more cards are invalid.';
           }
         }
 
-        // Match the order in $order
+        // Sort to match the order of the list of values
         foreach ($order as $value) {
           foreach ($hand as $card) {
             if (substr($card, 0, -1) === $value) {
@@ -53,7 +52,7 @@ class PokerHand
 
         // Check if it's a flush
         foreach ($hand as $card) {
-          if (substr($card, -1) !== $suit) {
+          if (substr($card, -1) !== substr($hand[0], -1)) {
             $isFlush = False;
           }
         }
@@ -86,7 +85,7 @@ class PokerHand
           } elseif ($count === 2) {
               $hasPair++;
               $count = 1;
-          } else if ($count === 3) {
+          } elseif ($count === 3) {
               if (substr($hand[$i+1], 0, -1) === substr($hand[$i+2], 0, -1)) {
                 $hasPair++;
               }
