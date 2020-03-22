@@ -66,7 +66,7 @@ class PokerHandTest extends TestCase
      */
     public function itCanRankAStraight()
     {
-        $hand = new PokerHand('8h 7d 6c 5d 4d');
+        $hand = new PokerHand('4d 8h 5d 7d 6c');
         $this->assertEquals('Straight', $hand->getRank());
     }
 
