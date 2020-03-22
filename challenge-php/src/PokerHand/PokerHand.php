@@ -23,8 +23,8 @@ class PokerHand
         $isFlush = True;
         $isStraight = True;
         $hasA = False;
-        $count = 0;
-        $hasTwoMore = 0;
+        $count = 1;
+        $hasPair = 0;
 
         // Validate and sort the hand!!
         // Check that there are 5 cards in the handle
@@ -48,10 +48,8 @@ class PokerHand
             }
           }
         }
-
-        //reset variables
         $hand = $sortedHand;
-        var_dump($hand);
+
 
         // Check if it's a flush
         foreach ($hand as $card) {
@@ -60,7 +58,7 @@ class PokerHand
           }
         }
 
-        // Check if it's a straight (assumes the cards are sorted)
+        // Check if it's a straight
         // First find the first card value in the list of values
         for ($i = 0; $i < 13; $i++) {
           if (substr($hand[0], 0, -1) === $order[$i]) {
@@ -81,18 +79,18 @@ class PokerHand
           }
         }
 
-
-        // Find the max number of a kind (assumes the cards are sorted)
-        foreach ($hand as $card) {
-          if (substr($card, 0, -1) === substr($hand[0], 0, -1)) {
+        // Find and count the duplicates
+        for ($i = 0; $i < 4; $i++) {
+          if (substr($hand[$i], 0, -1) === substr($hand[$i+1], 0, -1)) {
             $count++;
-          }
-        }
-
-        // Check for a pair in remaining cards
-        foreach ($hand as $card) {
-          if (substr($card, 0, -1) === substr($hand[$count], 0, -1)) {
-            $hasTwoMore++;
+          } elseif ($count === 2) {
+              $hasPair++;
+              $count = 1;
+          } else if ($count === 3) {
+              if (substr($hand[$i+1], 0, -1) === substr($hand[$i+2], 0, -1)) {
+                $hasPair++;
+              }
+              break;
           }
         }
 
@@ -103,7 +101,7 @@ class PokerHand
           return 'Straight Flush';
         } elseif ($count === 4) {
           return 'Four of a Kind';
-        } elseif ($count === 3 and $hasTwoMore === 2) {
+        } elseif ($count === 3 and $hasPair === 1) {
           return 'Full House';
         } elseif ($isFlush) {
           return 'Flush';
@@ -111,9 +109,9 @@ class PokerHand
           return 'Straight';
         } elseif ($count === 3) {
           return 'Three of a Kind';
-        } elseif ($count === 2 and $hasTwoMore === 2) {
+        } elseif ($hasPair === 2) {
           return 'Two Pair';
-        } elseif ($count === 2) {
+        } elseif ($hasPair === 1) {
           return 'One Pair';
         } else {
           return 'High Card';
